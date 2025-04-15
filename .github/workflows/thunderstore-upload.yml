@@ -1,14 +1,14 @@
 name: Publish Mod to Thunderstore
 
 # Run when changes are pushed to key files
-on: 
+on:
+  workflow_dispatch:  # This enables manual triggering
   push:
     paths:
       - 'manifest.json'
       - 'BepInEx/plugins/ControllerSupport.dll'
     branches:
       - main
-
 jobs:
   publish:
     runs-on: ubuntu-latest
