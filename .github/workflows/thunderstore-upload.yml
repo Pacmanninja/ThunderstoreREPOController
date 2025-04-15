@@ -1,0 +1,51 @@
+name: Publish Mod to Thunderstore
+
+# Run when changes are pushed to key files
+on: 
+  push:
+    paths:
+      - 'manifest.json'
+      - 'BepInEx/plugins/ControllerSupport.dll'
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      # Use checkout to publish the files in your repo
+      - uses: actions/checkout@v4
+      
+      # Extract version from manifest.json
+      - name: Extract version from manifest
+        id: get_version
+        run: |
+          VERSION=$(grep -o '"version_number": "[^"]*' manifest.json | cut -d'"' -f4)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "name=Controller_Support" >> $GITHUB_OUTPUT
+      
+      # Upload to Thunderstore
+      - name: Upload Thunderstore Package
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          community: repo
+          # Name of the team to publish the mod under
+          namespace: Pacmanninja
+          # Name of the package
+          name: Controller_Support
+          # Package version to publish (from manifest.json)
+          version: ${{ steps.get_version.outputs.version }}
+          # Description of the mod
+          description: "Use your Controller on R.E.P.O"
+          # Thunderstore API token
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          # Website URL
+          website: "https://github.com/Pacmanninja/R.E.P.O.ControllerSupport"
+          # Dependencies
+          deps: "bbepis-BepInExPack-5.4.2117"
+          # Thunderstore repository URL
+          repo: repo.thunderstore.io
+          # Categories for the mod
+          categories: |
+            mods
+            tools
