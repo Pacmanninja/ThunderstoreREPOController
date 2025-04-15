@@ -2,14 +2,13 @@ name: Publish Mod to Thunderstore
 
 # Run when changes are pushed to key files
 on:
-  workflow_dispatch:  # This enables manual triggering
+  workflow_dispatch: # This enables manual triggering
   push:
     paths:
       - 'manifest.json'
       - 'BepInEx/plugins/ControllerSupport.dll'
     branches:
       - main
-
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -25,24 +24,8 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "name=Controller_Support" >> $GITHUB_OUTPUT
       
-      # Check if package already exists on Thunderstore
-      - name: Check if package exists
-        id: check_package
-        run: |
-          PACKAGE_URL="https://repo.thunderstore.io/api/v1/package/Pacmanninja998/Controller_Support/${{ steps.get_version.outputs.version }}/"
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$PACKAGE_URL")
-          
-          if [ "$HTTP_STATUS" == "200" ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-            echo "Package already exists on Thunderstore, will skip upload"
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-            echo "Package doesn't exist yet, will proceed with upload"
-          fi
-      
-      # Upload to Thunderstore (only if package doesn't exist)
+      # Upload to Thunderstore
       - name: Upload Thunderstore Package
-        if: steps.check_package.outputs.exists != 'true'
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           community: repo
@@ -62,7 +45,7 @@ jobs:
           deps: "bbepis-BepInExPack-5.4.2117"
           # Thunderstore repository URL
           repo: repo.thunderstore.io
-          # Exclude .github directory and only include specific directories/files
+          # Explicitly specify which files to include (excluding .github)
           path: |
             BepInEx
             icon.png
@@ -73,11 +56,3 @@ jobs:
           categories: |
             mods
             tools
-      
-      - name: Package status
-        run: |
-          if [ "${{ steps.check_package.outputs.exists }}" == "true" ]; then
-            echo "Package already exists on Thunderstore. No upload was attempted."
-          else
-            echo "Package upload was attempted. Check logs for results."
-          fi
