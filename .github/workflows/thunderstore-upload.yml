@@ -30,7 +30,7 @@ jobs:
         with:
           community: repo
           # Name of the team to publish the mod under
-          namespace: Pacmanninja
+          namespace: Pacmanninja998
           # Name of the package
           name: Controller_Support
           # Package version to publish (from manifest.json)
