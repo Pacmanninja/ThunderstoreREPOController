@@ -31,6 +31,17 @@ Want to jump? End crouch to with one button press.
 Running and you stop? End your sprint.
 All configurable as well...
 
+## 2.0.0 (2025-04-28)
+3:Revamped.
+
+Fixed my little blunder earlier.
+Added toggles, which is also available in the REPO controls screen, but I went above and beyond...
+In crouch and you run... You automatically end crouch.
+In map and your run, automatically close map.
+Want to jump? End crouch to with one button press.
+Running and you stop? End your sprint.
+All configurable as well...
+
 ## 2.0.0 (2025-04-16)
 3:Revamped.
 
