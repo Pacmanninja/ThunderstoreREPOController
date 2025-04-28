@@ -1,3 +1,6 @@
+## 2.0.1 (2025-04-28)
+Manual release triggered - Version v2.0.1
+
 ## 2.0.0 (2025-04-28)
 3:Revamped.
 
